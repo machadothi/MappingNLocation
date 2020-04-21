@@ -12,7 +12,7 @@ from mpl_toolkits.mplot3d import Axes3D
 def plotinvsensor():
     
     fig = plt.figure()
-    ax = fig.gca(projection='3d')
+    ax = fig.add_subplot(111, projection='3d')
       
     # max range
     Rmax = 10
@@ -40,7 +40,7 @@ def plotinvsensor():
     
     xx, yy = np.meshgrid(x, y)
     
-    z = np.zeros((len(x), len(y)))
+    z = np.ones((len(x), len(y)))
     
     max_value = 0
     
@@ -48,24 +48,27 @@ def plotinvsensor():
         
         for j in range(len(y)):
             
-            if i < mu[0]:
+            if x[i] < mu[0]:
                 P = Pmin
                 
             else:
                 P = 0.5
                 
-            X = np.array([i, j])
+            X = np.array([x[i], y[j]])
             dummy = (X - mu)[np.newaxis]
             dummy2 = np.dot(invSigma , dummy.T)
             z[i, j] =  P + (K/(2*np.pi*sigma[0,0]*sigma[1 ,1]) + 0.5 - P)*np.exp(-.5 * np.dot((X - mu) , dummy2))
-            
+           
+            #print(z[i,j])            
             if z[i , j] > max_value:
                 max_value = z[i , j]
                            
-    ax.plot_surface(xx, yy, z, cmap=cm.coolwarm,                       linewidth=0, antialiased=False)
+    print(max_value)
+    #ax.contour3D(xx, yy, z)
+    ax.plot_surface(xx, yy, z, cmap='viridis', edgecolor='none')
    
-    ax.set_xlabel('distancia')
-    ax.set_ylabel('angulo')
+    ax.set_xlabel('distância')
+    ax.set_ylabel('ângulo')
     ax.set_zlabel('p(x|z,theta)')
     plt.show()
   

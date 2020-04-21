@@ -43,4 +43,3 @@
   ylabel('angulo')
   zlabel('p(x|z,theta)')
   colormap(hsv)
-end
