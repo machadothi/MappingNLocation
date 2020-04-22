@@ -6,8 +6,7 @@ Created on Tue Apr 14 21:25:38 2020
 """
 import numpy as np
 import matplotlib.pyplot as plt
-from matplotlib import cm
-from mpl_toolkits.mplot3d import Axes3D
+
 
 def plotinvsensor():
     
