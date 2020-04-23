@@ -32,8 +32,10 @@ def plotinvsensor():
     # dados do laser
     precisao = 50    # mm
     passo = 1*np.pi/180     # rad
-
-    sigma = np.array([[2, 0],[0, 0.2]])     # altera o shape da curva
+    
+    #sigma[0 0] - Erro de distancia
+    #sigma[1 1] - Erro de angulação
+    sigma = np.array([[2, 0],[0, 0.2]])     # altera o shape da curva (erro do sensor)
 # sigma = [0.5 0 ; 0 0.05];     # altera o shape da curva
 # sigma = [0.05 0 ; 0 0.005];     # altera o shape da curva
     invSigma = np.linalg.inv(sigma)
@@ -73,7 +75,7 @@ def plotinvsensor():
             dummy = np.dot(delta,invSigma)
             dummy2 = np.dot(dummy , delta.T)
             z[i, j] =  P + (K/(2*np.pi*sigma[0,0]*sigma[1 ,1]) + 0.5 - P)*np.exp(-.5 *dummy2)
-            mapa[i,j] = mapa[i,j] + np.log(z[i,j]/(1-z[i,j]))
+            mapa[i,j] += np.log(z[i,j]/(1-z[i,j])) #odds
             if z[i,j] > max_value:
                 max_value = z[i,j]
 
