@@ -6,9 +6,18 @@ Created on Tue Apr 21 19:40:52 2020
 """
 import numpy as np
 import matplotlib.pyplot as plt
+import restthru as rt
 
 def plotinvsensor():
 
+    #Restthru Setup
+    host = 'http://localhost:4950'
+    get_pose = '/motion/pose'
+    get_range = '/perception/laser/1/distances'
+    rt.http_init(host)
+    
+
+    #Plot Setup
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
     # tamanho da celula
@@ -20,13 +29,16 @@ def plotinvsensor():
     mapa = np.zeros((numCelX, numCelY))
 
     # pose do robo
-    px = 3000
-    py = 1500
-    pth = 15*np.pi/180
+    p, status = rt.http_get(host + get_pose)
+   
+    px = p['x']
+    py = p['y']
+    pth = p['th']*np.pi/180
 
     # leitura do laser
-    range_value = 2000
-    fi = 20*np.pi/180
+    range_value = rt.http_get(host + get_range)
+    #fi = 20*np.pi/180
+    
     mu = np.array([range_value, fi])
 
     # dados do laser
