@@ -1,0 +1,5 @@
+Passos para execução do Restthru
+
+1 - /usr/local/MobileSim/MobileSim -m feec.map
+2 - sudo service restthru start
+3 - API path: /usr/local/restthru/APIs/Python
